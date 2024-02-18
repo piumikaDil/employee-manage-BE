@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Web POS</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+    <link href="assets/style.css" rel="stylesheet" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <!--Nav started-->
+      <nav
+        class="navbar navbar-expand-lg navbar-light shadow-lg posNavi position-relative rounded-bottom"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand text-dark fw-bold" href="#">
+            <img
+              alt="Logo"
+              class="d-inline-block align-text-center"
+              height="44"
+              src="assets/images/logo.png"
+              width="50"
+            />
+            <span class="text-primary"> ABMS </span>
+          </a>
+          <button
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-bs-target="#navbarSupportedContent"
+            data-bs-toggle="collapse"
+            type="button"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item" id="customerBtn">
+                <a class="nav-link" href="#">Employees(සේවකයින්) </a>
+              </li>
+              <li class="nav-item" id="itemBtn">
+                <a class="nav-link" href="#">Sites(අඩවි)</a>
+              </li>
+              <li class="nav-item" id="orderBtn">
+                <a class="nav-link" href="#">Attendance(පැමිණීම)</a>
+              </li>
+              <li class="nav-item" id="paymentBtn">
+                <a class="nav-link" href="#">Payments(වැටුප් ගෙවීම්)</a>
+              </li>
+              <li class="nav-item" id="paymentDetailsBtn">
+                <a class="nav-link" href="#">Payment Details(වැටුප් විස්තර)</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!--Nav ended-->
+    </header>
+
+    <!-- Home Start-->
+    <main class="container-fluid mt-5" id="HomeSection">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card bg-primary text-white">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-shopping-cart"></i> Total Orders
+              </h5>
+              <h6 class="card-text" id="totalOrders">100</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-users"></i> Total Customers
+              </h5>
+              <h6 class="card-text" id="totalCustomers">50</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-info text-white">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-dollar-sign"></i> Total Revenue
+              </h5>
+              <h6 class="card-text" id="totalRevenue">$10,000</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-warning text-dark">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-cubes"></i> Total Items
+              </h5>
+              <h6 class="card-text" id="totalItems">200</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Revenue</h5>
+              <canvas id="performanceChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Sales</h5>
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Home End-->
+
+    <main class="container-fluid" id="CustomerSection">
+      <!-- Customer Header Start -->
+      <div class="container d-flex flex-grow-1 flex-column">
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h2 id="H1-3" style="font-family: 'Arial Rounded MT Bold', serif">
+            <i class="fa-solid fa-users"></i> Employees(සේවකයින්)
+          </h2>
+        </div>
+      </div>
+      <!-- Customer Header End -->
+
+      <!-- Customer Header Section Start -->
+      <div
+        class="container d-flex flex-grow-1 flex-column"
+        style="background-color: #dfe4ea"
+      >
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h6 id="H6">Employees</h6>
+          <hr />
+        </div>
+        <!-- Customer Header Section End -->
+
+        <!-- Customer Details Section Start -->
+        <div class="row justify-content-around" style="height: max-content">
+          <!-- Customer Details Search Section Start -->
+          <div
+            class="col-10 col-md-5 col-lg-4 p-0 mt-2 rounded-3"
+            style="background-color: white"
+          >
+            <h4
+              class="text-center p-2 text-light rounded-3"
+              style="background: #16a085"
+            >
+              Search Employee
+            </h4>
+
+            <div class="mb-3 ms-3 me-3">
+              <input
+                class="form-control me-2"
+                id="searchCusId"
+                placeholder="Input Name Here(නම ඇතුලත් කරන්න)"
+                type="search"
+              />
+            </div>
+            <form>
+              <button
+                class="btn btn-primary ms-3 mb-3 ms-md-3 ms-lg-3 btn-success"
+                id="btnSearchCus"
+                type="button"
+              >
+                Search(සෙවීම)
+              </button>
+              <button
+                class="btn btn-warning ms-3 mb-3 ms-md-3 ms-lg-3"
+                id="clearSearchCus"
+                type="button"
+              >
+                Clear(මකන්න)
+              </button>
+            </form>
+          </div>
+          <!-- Customer Details Search Section End -->
+
+          <!-- Customer Details Button Section Start -->
+          <div class="col-lg-5 mt-4">
+            <button
+              class="btn btn-success mt-2 m-1 w-100"
+              data-bs-target="#registerCustomer"
+              data-bs-toggle="modal"
+              id="btnRegister"
+              type="button"
+            >
+              + New Employee(සේවකයින් එකතු කරන්න)
+            </button>
+
+            <button
+              class="btn btn-warning mt-2 m-1 w-100"
+              data-bs-target="#updateCustomer"
+              data-bs-toggle="modal"
+              type="button"
+            >
+              Update Employee(සේවකයින් යාවත්කාලීන කරන්න)
+            </button>
+
+            <button
+              class="btn btn-danger mt-2 m-1 w-100"
+              data-bs-target="#deleteCustomer"
+              data-bs-toggle="modal"
+              type="button"
+            >
+              Delete Employee(සේවකයින් මකා දමන්න)
+            </button>
+          </div>
+          <!-- Customer Details Button Section End -->
+        </div>
+        <!-- Customer Details Section End -->
+
+        <!-- View Customer Details Table Start -->
+        <div
+          class="row mt-1 mt-md-2 mt-lg-5 justify-content-around"
+          style="height: 250px"
+        >
+          <div class="col-10">
+            <div class="customerTableDiv overflow-auto" style="height: 200px">
+              <table
+                class="table table-success table-striped table-bordered table-hover"
+              >
+                <thead
+                  class="text-light table-dark text-center table-bordered sticky-top"
+                >
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Site</th>
+                    <th>nic</th>
+                    <th>Salary Rate</th>
+                    <th>OT Rate</th>
+                  </tr>
+                </thead>
+                <tbody id="customerTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- View Customer Details Table End -->
+      </div>
+    </main>
+
+    <!-- Modal - Add Customer Start-->
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="registerCustomer"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="background: #16a085">
+            <h5 class="modal-title text-light">Add Employee/සේවක එකතු කරන්න</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtCustomerId"
+                  >ID :</label
+                >
+                <input
+                  class="form-control"
+                  id="txtEmployeeId"
+                  type="text"
+                  disabled
+                />
+                <span class="control-error" id="lblCusID"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtEmployeeName"
+                  >Name/නම :</label
+                >
+                <input class="form-control" id="txtEmployeeName" type="text" />
+                <span class="control-error" id="lblCusName"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtCustomerName"
+                  >Select Category/නම :</label
+                >
+                <select class="form-control" id="cmbCategory">
+                  <option value="0" disabled selected>Select Category:</option>
+                  <option value="CP">CP</option>
+                  <option value="CLB">CLB</option>
+                  <option value="LB">LB</option>
+                </select>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="cmbSite"
+                  >Select Site/නම :</label
+                >
+                <select class="form-control" id="cmbSite">
+                  <option value="0" disabled selected>Select Site</option>
+                </select>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtEmployeeNIC"
+                  >NIC/ජා.හැ. අංකය :</label
+                >
+                <input class="form-control" id="txtEmployeeNIC" />
+                <span class="control-error" id="lblCusSalary"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtEmployeeOT"
+                  >OT Rate/අතිකාල දීමනා :</label
+                >
+                <input class="form-control" id="txtEmployeeOT" type="number" />
+                <span class="control-error" id="lblCusAddress"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtEmployeeSalary"
+                  >Salary/වැටුප :</label
+                >
+                <input
+                  class="form-control"
+                  id="txtEmployeeSalary"
+                  type="number"
+                />
+                <span class="control-error" id="lblCusSalary"></span>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              type="button"
+            >
+              Close
+            </button>
+            <button class="btn btn-warning" id="btnClearC" type="reset">
+              Clear
+            </button>
+            <button class="btn btn-primary" id="btnCSave" type="button">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Add Customer End -->
+
+    <!-- Modal Update Customer Start-->
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="updateCustomer"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title text-dark">Update Employee</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="searchCustomerId"
+                  >ID :</label
+                >
+                <input
+                  class="form-control"
+                  disabled
+                  id="searchCustomerId"
+                  type="text"
+                />
+                <span class="control-error" id="lblUCusId"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="nameUpdate"
+                  >Name :</label
+                >
+                <input class="form-control" id="nameUpdate" type="text" />
+                <span class="control-error" id="lblUCusName"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtCustomerName"
+                  >Select Category:</label
+                >
+                <select class="form-control" id="cmbUpCategory">
+                  <!-- <option value="0" disabled selected>Select Category</option> -->
+                  <option value="CP">CP</option>
+                  <option value="CLB">CLB</option>
+                  <option value="LB">LB</option>
+                </select>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtCustomerName"
+                  >Select Site:</label
+                >
+                <select class="form-control" id="cmbUpSite">
+                  <option value="0" disabled selected>Select Site</option>
+                </select>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="addressUpdate"
+                  >NIC :</label
+                >
+                <input class="form-control" id="nicUpdate" type="text" />
+                <span class="control-error" id="lblUCusAddress"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="salaryUpdate"
+                  >OT Rate:</label
+                >
+                <input class="form-control" id="otUpdate" type="number" />
+                <span class="control-error" id="lblUCusSalary"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="salaryUpdate"
+                  >Salary:</label
+                >
+                <input class="form-control" id="salaryUpdate" type="number" />
+                <span class="control-error" id="lblUCusSalary"></span>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              type="button"
+            >
+              Close
+            </button>
+            <button class="btn btn-warning" id="btnUclearC" type="reset">
+              Clear
+            </button>
+            <button
+              class="btn btn-primary"
+              id="bntUpdateCustomer"
+              type="button"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Update Customer End -->
+
+    <!-- Modal Delete Customer Start-->
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="deleteCustomer"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title text-light">Delete Employee</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="searchCIdDelete"
+                  >ID :</label
+                >
+                <input
+                  class="form-control"
+                  id="searchCIdDelete"
+                  type="text"
+                  disabled
+                />
+              </div>
+              <fieldset disabled>
+                <div class="ms-3 me-3">
+                  <label
+                    class="form-label fw-bold mb-0"
+                    for="disabledNameDelete"
+                    >Name :</label
+                  >
+                  <input
+                    class="form-control"
+                    id="disabledNameDelete"
+                    type="text"
+                  />
+                </div>
+                <div class="ms-3 me-3">
+                  <label
+                    class="form-label fw-bold mb-0"
+                    for="disabledAddressDelete"
+                    >NIC :</label
+                  >
+                  <input
+                    class="form-control"
+                    id="disabledNICDelete"
+                    type="text"
+                  />
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              type="button"
+            >
+              Close
+            </button>
+            <button class="btn btn-warning" id="btnDclearC" type="reset">
+              Clear
+            </button>
+            <button class="btn btn-danger" id="btnDeleteCustomer" type="button">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Delete Customer End-->
+
+    <!-- Item Start-->
+    <main class="container-fluid" id="ItemSection">
+      <!-- Item Header Start -->
+      <div class="container d-flex flex-grow-1 flex-column">
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h2 id="H1-1" style="font-family: 'Arial Rounded MT Bold', serif">
+            <i class="fa-sharp fa-solid fa-computer"></i> Sites(අඩවි)
+          </h2>
+        </div>
+      </div>
+      <!-- Item Header End -->
+
+      <!-- Item Header Section Start -->
+      <div
+        class="container d-flex flex-grow-1 flex-column"
+        style="background-color: #dfe4ea"
+      >
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h6 id="H6-1">Site</h6>
+          <hr />
+        </div>
+        <!-- Item Header Section End -->
+
+        <!-- Item Details Section Start -->
+        <div class="row justify-content-around" style="height: max-content">
+          <!-- Item Details Search Section Start -->
+          <div
+            class="col-10 col-md-5 col-lg-4 p-0 mt-2 rounded-3"
+            style="background-color: white"
+          >
+            <h4
+              class="text-center p-2 text-light rounded-3"
+              style="background: #16a085"
+            >
+              Search Site
+            </h4>
+
+            <div class="mb-3 ms-3 me-3">
+              <input
+                class="form-control me-2"
+                id="ItemIdSearch"
+                placeholder="Input Name Here(නම ඇතුලත් කරන්න)"
+                type="search"
+              />
+            </div>
+            <form>
+              <button
+                class="btn btn-primary ms-3 mb-3 ms-md-3 ms-lg-3 btn-success"
+                id="btnSearchItem"
+                type="button"
+              >
+                Search(සෙවීම)
+              </button>
+              <button
+                class="btn btn-warning ms-3 mb-3 ms-md-3 ms-lg-3"
+                id="clearSearchItem"
+                type="button"
+              >
+                Clear(මකන්න)
+              </button>
+            </form>
+          </div>
+          <!-- Item Details Search Section End -->
+
+          <!-- Item Details Button Section Start -->
+          <div class="col-10 col-md-5 col-lg-5 mt-2">
+            <button
+              class="btn btn-success mt-2 m-1 w-100"
+              data-bs-target="#registerItem"
+              data-bs-toggle="modal"
+              id="btnAddItem"
+              type="button"
+            >
+              + New Site(නව අඩවියක් එක් කරන්න)
+            </button>
+
+            <button
+              class="btn btn-warning mt-2 m-1 w-100"
+              data-bs-target="#updateItem"
+              data-bs-toggle="modal"
+              type="button"
+            >
+              Update Site(අඩවිය යාවත්කාලීන කරන්න)
+            </button>
+
+            <button
+              class="btn btn-danger mt-2 m-1 w-100"
+              data-bs-target="#deleteItem"
+              data-bs-toggle="modal"
+              type="button"
+            >
+              Delete Site(අඩවිය මකා දමන්න)
+            </button>
+          </div>
+          <!-- Item Details Button Section End -->
+        </div>
+        <!-- Item Details Section End -->
+
+        <!-- View Item Details Table Start -->
+        <div
+          class="row mt-1 mt-md-2 mt-lg-5 justify-content-around"
+          style="height: 250px"
+        >
+          <div class="col-10">
+            <div class="ItemTableDiv overflow-auto" style="height: 200px">
+              <table
+                class="table table-success table-striped table-bordered table-hover"
+              >
+                <thead
+                  class="text-light table-dark text-center table-bordered sticky-top"
+                >
+                  <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Contact NO</th>
+                  </tr>
+                </thead>
+                <tbody id="ItemTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- View Item Details Table End -->
+      </div>
+    </main>
+    <!-- Item End-->
+
+    <!-- Modal - Add Item Start-->
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="registerItem"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="background: #16a085">
+            <h5 class="modal-title text-light">Add Site(අඩවිය එකතු කරන්න)</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtSiteId"
+                  >Code(කේතය) :</label
+                >
+                <input
+                  class="form-control"
+                  id="txtSiteId"
+                  type="text"
+                  disabled
+                />
+                <span class="control-error" id="lblItemId"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtSiteName"
+                  >Name(නම) :</label
+                >
+                <input class="form-control" id="txtSiteName" type="text" />
+                <span class="control-error" id="lblItemName"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtSiteAddress"
+                  >Address(ලිපිනය) :</label
+                >
+                <input class="form-control" id="txtSiteAddress" type="text" />
+                <span class="control-error" id="lblItemQty"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="txtCNO"
+                  >Contact NO(සම්බන්ධතා අංක) :</label
+                >
+                <input class="form-control" id="txtCNO" type="number" />
+                <span class="control-error" id="lblItemPrice"></span>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              type="button"
+            >
+              Close
+            </button>
+            <button class="btn btn-warning" id="btnClearI" type="reset">
+              Clear
+            </button>
+            <button class="btn btn-primary" id="btnISave" type="button">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal - Add Item End-->
+
+    <!-- Modal Update Item Start-->
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="updateItem"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title text-dark">Update Site</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="searchSiteId"
+                  >Code(කේතය) :</label
+                >
+                <input
+                  class="form-control"
+                  disabled
+                  id="searchSiteId"
+                  type="text"
+                />
+                <span class="control-error" id="lblUItemId"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="updateSiteName"
+                  >Name(නම) :</label
+                >
+                <input class="form-control" id="updateSiteName" type="text" />
+                <span class="control-error" id="lblUItemName"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="updateSiteAddress"
+                  >Address(ලිපිනය) :</label
+                >
+                <input
+                  class="form-control"
+                  id="updateSiteAddress"
+                  type="text"
+                />
+                <span class="control-error" id="lblUItemQty"></span>
+              </div>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="updateSiteContact"
+                  >Contact NO(සම්බන්ධතා අංක) :</label
+                >
+                <input
+                  class="form-control"
+                  id="updateSiteContact"
+                />
+                <span class="control-error" id="lblUItemPrice"></span>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              type="button"
+            >
+              Close
+            </button>
+            <button class="btn btn-warning" id="btnUclearI" type="reset">
+              Clear
+            </button>
+            <button class="btn btn-primary" id="btnUpdateItem" type="button">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Update Item End-->
+
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="empPaymentModal"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title text-dark">Payments</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table id="employersTable">
+              <thead>
+                <tr>
+                  <th>Employer ID</th>
+                  <th>Name</th>
+                  <th>Total Pay</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="payData_employersList"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Delete Item Start -->
+    <div
+      aria-hidden="true"
+      aria-labelledby="exampleModalLabel"
+      class="modal fade"
+      id="deleteItem"
+      tabindex="-1"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title text-light">Delete Site</h5>
+            <button
+              aria-label="Close"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              type="button"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="ms-3 me-3">
+                <label class="form-label fw-bold mb-0" for="searchDItemId"
+                  >Code(කේතය):</label
+                >
+                <input
+                  class="form-control"
+                  id="searchDItemId"
+                  type="text"
+                  disabled
+                />
+              </div>
+              <fieldset disabled>
+                <div class="ms-3 me-3">
+                  <label class="form-label fw-bold mb-0" for="DItemName"
+                    >Name(නම) :</label
+                  >
+                  <input
+                    class="form-control disabled"
+                    id="DItemName"
+                    type="text"
+                  />
+                </div>
+                <div class="ms-3 me-3">
+                  <label class="form-label fw-bold mb-0" for="DItemQty"
+                    >Address(ලිපිනය) :</label
+                  >
+                  <input
+                    class="form-control disabled"
+                    id="DItemQty"
+                    type="text"
+                  />
+                </div>
+                <div class="ms-3 me-3">
+                  <label class="form-label fw-bold mb-0" for="DItemPrice"
+                    >Contact NO(සම්බන්ධතා අංක) :</label
+                  >
+                  <input
+                    class="form-control disabled"
+                    id="DItemPrice"
+                    type="number"
+                  />
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              type="button"
+            >
+              Close
+            </button>
+            <button class="btn btn-warning" id="btnDclearI" type="reset">
+              Clear
+            </button>
+            <button class="btn btn-danger" id="btnDeleteItems" type="button">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Delete Item End -->
+
+    <!-- Attendance Start-->
+    <main class="container-fluid" id="OrderSection">
+      <!-- Attendance Header Start -->
+      <div class="container d-flex flex-grow-1 flex-column">
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h2 id="H1-1" style="font-family: 'Arial Rounded MT Bold', serif">
+            <i class="fa-sharp fa-solid fa-computer"></i> Attendance(පැමිණීම)
+          </h2>
+        </div>
+      </div>
+      <!-- Attendance Header End -->
+
+      <!-- Attendance Header Section Start -->
+      <div
+        class="container d-flex flex-grow-1 flex-column"
+        style="background-color: #dfe4ea"
+      >
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h6 id="H6-1">Attendance</h6>
+          <hr />
+        </div>
+        <!-- Attendance Header Section End -->
+
+        <!-- Attendance Details Section Start -->
+        <div class="row justify-content-around" style="height: max-content">
+          <!-- Attendance Details Search Section Start -->
+          <div
+            class="col-10 col-md-5 col-lg-4 p-0 mt-2 rounded-3"
+            style="background-color: white"
+          >
+            <h4
+              class="text-center p-2 text-light rounded-3"
+              style="background: #16a085"
+            >
+              Search Name
+            </h4>
+
+            <div class="mb-3 ms-3 me-3">
+              <input
+                class="form-control me-2"
+                id="nameSearch"
+                placeholder="Input Name Here(නම ඇතුලත් කරන්න)"
+                type="search"
+              />
+            </div>
+            <form>
+              <button
+                class="btn btn-primary ms-3 mb-3 ms-md-3 ms-lg-3 btn-success"
+                id="btnSearchName"
+                type="button"
+              >
+                Search(සෙවීම)
+              </button>
+              <button
+                class="btn btn-warning ms-3 mb-3 ms-md-3 ms-lg-3"
+                id="clearSearchName"
+                type="button"
+              >
+                Clear(මකන්න)
+              </button>
+            </form>
+          </div>
+          <!-- Attendance Details Search Section End -->
+        </div>
+        <!-- Attendance Details Section End -->
+
+        <!-- View Attendance Details Table Start -->
+        <div
+          class="row mt-1 mt-md-2 mt-lg-5 justify-content-around"
+          style="height: 250px"
+        >
+          <div class="col-10">
+            <div class="ItemTableDiv overflow-auto" style="height: 200px">
+              <table
+                class="table table-success table-striped table-bordered table-hover"
+                id="myTable"
+              >
+                <thead
+                  class="text-light table-dark text-center table-bordered sticky-top"
+                >
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Date</th>
+                    <th>In Time</th>
+                    <th>Out Time</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="attendanceTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- View Attendance Details Table End -->
+      </div>
+    </main>
+
+    <!-- OrderFrom End-->
+
+    <!-- payments section start -->
+
+    <main class="container-fluid" id="PaymentSection">
+      <!-- Payment Header Start -->
+      <div class="container d-flex flex-grow-1 flex-column">
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h2 id="H1-1" style="font-family: 'Arial Rounded MT Bold', serif">
+            <i class="fa-sharp fa-solid fa-computer"></i> Payments(වැටුප්
+            ගෙවීම්)
+          </h2>
+        </div>
+      </div>
+      <!-- Payment Header End -->
+
+      <div style="margin: 50px">
+        <form>
+          <div class="ms-3 me-3">
+            <label class="form-label fw-bold mb-0" for="txtStartDate"
+              >Start Date(ආරම්භක දිනය):</label
+            >
+            <input class="form-control" id="txtStartDate" type="date" />
+          </div>
+          <fieldset>
+            <div class="ms-3 me-3 mt-4 mb-4">
+              <label class="form-label fw-bold mb-0" for="txtEndDate"
+                >End Date(අවසාන දිනය) :</label
+              >
+              <input class="form-control" id="txtEndDate" type="date" />
+            </div>
+            <div class="ms-3 me-3 mb-4">
+              <label class="form-label fw-bold mb-0" for="cmbSelectSite"
+                >Select Site:</label
+              >
+              <select class="form-control" id="cmbSelectSite">
+                <option value="0" disabled selected>Select Site</option>
+                <!-- <option value="CP">CP</option> -->
+              </select>
+            </div>
+          </fieldset>
+        </form>
+        <div class="modal-footer">
+          <button
+            style="
+              margin-right: 15px;
+              background-color: #3498db;
+              border: none;
+              border-radius: 5px;
+              color: aliceblue;
+              padding: 8px;
+            "
+            id="btnPay"
+            type="reset"
+          >
+            Store Payment Details
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- payments section end -->
+
+    <main class="container-fluid" id="PayDetailsSection">
+      <!-- Customer Header Start -->
+      <div class="container d-flex flex-grow-1 flex-column">
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h2 id="H1-3" style="font-family: 'Arial Rounded MT Bold', serif">
+            <i class="fa-solid fa-users"></i> Payment Details(වැටුප් විස්තර)
+          </h2>
+        </div>
+      </div>
+      <!-- Customer Header End -->
+
+      <!-- Customer Header Section Start -->
+      <div
+        class="container d-flex flex-grow-1 flex-column"
+        style="background-color: #dfe4ea"
+      >
+        <div class="position-relative d-inline-block mt-3 mt-lg-4 mt-md-4">
+          <h6 id="H6">Payment Details</h6>
+          <hr />
+        </div>
+        <!-- Customer Header Section End -->
+
+        <!-- Customer Details Section Start -->
+        <div class="row justify-content-around" style="height: max-content">
+          <!-- Customer Details Search Section Start -->
+
+          <!-- Customer Details Search Section End -->
+
+          <!-- Customer Details Button Section Start -->
+
+          <!-- Customer Details Button Section End -->
+        </div>
+        <!-- Customer Details Section End -->
+
+        <!-- View Customer Details Table Start -->
+        <div
+          class="row mt-1 mt-md-2 mt-lg-5 justify-content-around"
+          style="height: 250px"
+        >
+          <div class="col-10">
+            <div class="customerTableDiv overflow-auto" style="height: 200px">
+              <table
+                class="table table-success table-striped table-bordered table-hover"
+              >
+                <thead
+                  class="text-light table-dark text-center table-bordered sticky-top"
+                >
+                  <tr>
+                    <th>Payment ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Site ID</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="payDetailsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View Customer Details Table End -->
+      </div>
+    </main>
+
+    <!--Import js for bootstrap-->
+    <!--<script src="assets/styles/bootstrap-5.2.1-dist/js/bootstrap.min.js"></script>-->
+
+    <!--import jQuery library-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="libs/jspdf.umd.js"></script>
+    <script src="dist/jspdf.plugin.autotable.min.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script rel="script" src="util/validation.js" type="module"></script>
+
+    <script
+      rel="script"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"
+    ></script>
+    <script
+      rel="script"
+      src="controller/DashboardController.js"
+      type="module"
+    ></script>
+    <script
+      rel="script"
+      src="controller/PaymentDetailsController.js"
+      type="module"
+    ></script>
+    <script
+      rel="script"
+      src="controller/PaymentController.js"
+      type="module"
+    ></script>
+    <script
+      rel="script"
+      src="controller/CustomerController.js"
+      type="module"
+    ></script>
+    <script
+      rel="script"
+      src="controller/ItemController.js"
+      type="module"
+    ></script>
+    <script
+      rel="script"
+      src="controller/AtendanceController.js"
+      type="module"
+    ></script>
+    <!--<script
+      rel="script"
+      src="controller/OrderViewsController.js"
+      type="module"
+    ></script> -->
+  </body>
+</html>
